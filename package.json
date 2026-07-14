@@ -1,0 +1,33 @@
+{
+  "name": "yelp-autoresponder",
+  "version": "0.1.0",
+  "description": "Human-like Yelp inbox auto-responder: Playwright + LLM brain + UI-TARS GUI-agent fallback",
+  "type": "module",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsc",
+    "typecheck": "tsc --noEmit",
+    "login": "tsx src/index.ts login",
+    "start": "tsx src/index.ts run",
+    "dry-run": "tsx src/index.ts run --dry-run",
+    "once": "tsx src/index.ts run --once",
+    "status": "tsx src/index.ts status"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.111.0",
+    "@ui-tars/sdk": "^1.2.3",
+    "dotenv": "^16.4.5",
+    "playwright": "^1.49.0",
+    "uuid": "^14.0.1",
+    "yaml": "^2.6.0",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.0"
+  }
+}

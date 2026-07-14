@@ -1,0 +1,44 @@
+{
+  "manifest_version": 3,
+  "name": "Yelp Auto-Reply — авто-ответы на сообщения",
+  "version": "0.1.0",
+  "description": "Автоматически отвечает клиентам в вашем Yelp for Business inbox по-человечески. Пишет как вы, по вашим ценам и правилам.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Yelp Auto-Reply",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "background": {
+    "service_worker": "background/service-worker.js",
+    "type": "module"
+  },
+  "options_page": "options/options.html",
+  "permissions": ["storage", "alarms", "tabs", "notifications"],
+  "host_permissions": [
+    "https://biz.yelp.com/*",
+    "https://api.anthropic.com/*",
+    "https://api.openai.com/*"
+  ],
+  "optional_host_permissions": ["https://*/*"],
+  "content_scripts": [
+    {
+      "matches": ["https://biz.yelp.com/*"],
+      "js": [
+        "content/humanize.js",
+        "content/selectors.js",
+        "content/inbox.js",
+        "content/content.js"
+      ],
+      "run_at": "document_idle"
+    }
+  ]
+}
