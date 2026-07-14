@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Yelp Auto-Reply установлен</title>
+    <style>
+      body { margin: 0; font-family: -apple-system, system-ui, "Segoe UI", Roboto, sans-serif;
+        background: #f6f6f7; color: #1c1c1c; display: flex; min-height: 100vh; align-items: center; justify-content: center; }
+      .card { background: #fff; max-width: 480px; padding: 40px 36px; border-radius: 20px;
+        box-shadow: 0 10px 40px rgba(0,0,0,0.08); text-align: center; }
+      .logo { width: 72px; height: 72px; }
+      h1 { font-size: 26px; margin: 16px 0 8px; }
+      p { color: #6b7280; font-size: 16px; }
+      ol { text-align: left; margin: 24px 0; padding-left: 0; list-style: none; }
+      li { display: flex; gap: 12px; padding: 10px 0; font-size: 16px; }
+      li span { font-size: 22px; }
+      .btn { display: inline-block; background: #d32323; color: #fff; border: none; border-radius: 12px;
+        padding: 15px 28px; font-size: 17px; font-weight: 700; cursor: pointer; text-decoration: none; }
+      .btn:hover { background: #b01d1d; }
+      .tip { margin-top: 20px; font-size: 14px; color: #6b7280; }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <img class="logo" src="../icons/icon128.png" alt="" />
+      <h1>Расширение установлено 🎉</h1>
+      <p>Бот будет отвечать вашим клиентам на Yelp за вас.</p>
+      <ol>
+        <li><span>1️⃣</span> Нажмите кнопку ниже и пройдите настройку (2 минуты)</li>
+        <li><span>2️⃣</span> Включите бота</li>
+        <li><span>3️⃣</span> Держите открытой вкладку «Входящие» Yelp</li>
+      </ol>
+      <button class="btn" id="start">Начать настройку →</button>
+      <div class="tip">Позже: значок расширения справа вверху в Chrome → шестерёнка «Настройки».</div>
+    </div>
+    <script>
+      document.getElementById('start').addEventListener('click', () => {
+        chrome.runtime.openOptionsPage();
+      });
+    </script>
+  </body>
+</html>

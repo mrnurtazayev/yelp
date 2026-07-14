@@ -1,0 +1,209 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="options.css" />
+    <title>Настройка — Yelp Auto-Reply</title>
+  </head>
+  <body>
+    <div class="wrap">
+      <header class="top">
+        <img src="../icons/icon48.png" width="32" height="32" alt="" />
+        <div class="brand">Yelp Auto-Reply</div>
+      </header>
+
+      <div class="progress"><div id="bar" class="bar"></div></div>
+
+      <!-- Шаг 1: как работает -->
+      <section class="step active" data-step="0">
+        <div class="hero">🤖</div>
+        <h1>Бот, который отвечает вашим клиентам на Yelp</h1>
+        <p class="lead">
+          Он сам читает новые сообщения во «Входящих» Yelp и отвечает от вашего
+          имени — по вашим ценам и правилам. Как будто вы сами быстро написали с телефона.
+        </p>
+        <ul class="how">
+          <li><span>1️⃣</span> Подключаете ИИ (нужен ключ — покажем, где взять)</li>
+          <li><span>2️⃣</span> Рассказываете про бизнес и как отвечать</li>
+          <li><span>3️⃣</span> Включаете — и держите вкладку Yelp открытой</li>
+        </ul>
+        <div class="note">
+          💡 Сложные случаи (жалобы, возвраты) бот <b>не</b> отвечает сам, а
+          показывает вам — чтобы вы ответили лично.
+        </div>
+      </section>
+
+      <!-- Шаг 2: ИИ -->
+      <section class="step" data-step="1">
+        <h1>Шаг 1. Подключите ИИ</h1>
+        <p class="lead">ИИ придумывает тексты ответов. Выберите сервис и вставьте ключ.</p>
+
+        <div class="choices">
+          <label class="choice">
+            <input type="radio" name="provider" value="anthropic" checked />
+            <div>
+              <div class="choice-title">Claude (Anthropic) <span class="rec">рекомендуем</span></div>
+              <div class="choice-sub">Лучше всех пишет короткие человеческие ответы</div>
+            </div>
+          </label>
+          <label class="choice">
+            <input type="radio" name="provider" value="openai" />
+            <div>
+              <div class="choice-title">OpenAI / совместимый</div>
+              <div class="choice-sub">ChatGPT или любой сервер с /v1/chat/completions</div>
+            </div>
+          </label>
+        </div>
+
+        <div id="anthropicFields">
+          <label class="field">
+            <span>API-ключ Anthropic</span>
+            <input id="apiKey" type="password" placeholder="sk-ant-..." autocomplete="off" />
+          </label>
+          <details class="help">
+            <summary>Где взять ключ? (30 сек)</summary>
+            <ol>
+              <li>Откройте <b>console.anthropic.com</b> → войдите/зарегистрируйтесь</li>
+              <li>Слева <b>API Keys</b> → <b>Create Key</b></li>
+              <li>Скопируйте ключ (начинается с <code>sk-ant-</code>) и вставьте сюда</li>
+            </ol>
+          </details>
+          <label class="field">
+            <span>Модель</span>
+            <input id="model" type="text" value="claude-opus-4-8" />
+          </label>
+        </div>
+
+        <div id="openaiFields" class="hidden">
+          <label class="field">
+            <span>Адрес сервера (Base URL)</span>
+            <input id="openaiBaseUrl" type="text" value="https://api.openai.com/v1" />
+          </label>
+          <label class="field">
+            <span>API-ключ</span>
+            <input id="openaiKey" type="password" placeholder="sk-..." autocomplete="off" />
+          </label>
+          <label class="field">
+            <span>Модель</span>
+            <input id="openaiModel" type="text" value="gpt-4o" />
+          </label>
+        </div>
+
+        <button id="testBtn" class="btn btn-outline">🔌 Проверить подключение</button>
+        <div id="testResult" class="test-result"></div>
+      </section>
+
+      <!-- Шаг 3: бизнес -->
+      <section class="step" data-step="2">
+        <h1>Шаг 2. Ваш бизнес</h1>
+        <p class="lead">Это ИИ будет использовать в ответах.</p>
+        <label class="field"><span>Название бизнеса</span>
+          <input id="bizName" placeholder="Bright Move LLC" /></label>
+        <label class="field"><span>Чем занимаетесь</span>
+          <input id="bizCategory" placeholder="Компания по переездам" /></label>
+        <div class="row">
+          <label class="field"><span>Город</span>
+            <input id="bizCity" placeholder="Chicago, IL" /></label>
+          <label class="field"><span>Телефон</span>
+            <input id="bizPhone" placeholder="+1 (312) 555-0134" /></label>
+        </div>
+        <label class="field"><span>Язык ответов</span>
+          <input id="bizLang" value="English" /></label>
+      </section>
+
+      <!-- Шаг 4: стиль -->
+      <section class="step" data-step="3">
+        <h1>Шаг 3. Как отвечать</h1>
+        <label class="field"><span>Ваше имя (от кого сообщения)</span>
+          <input id="personaName" placeholder="Alex" /></label>
+        <div class="field">
+          <span>Тон общения</span>
+          <div class="chips" id="toneChips">
+            <button type="button" class="chip" data-tone="friendly">😊 Дружелюбный</button>
+            <button type="button" class="chip" data-tone="pro">👔 Деловой</button>
+            <button type="button" class="chip" data-tone="casual">✌️ Простой</button>
+          </div>
+          <textarea id="tone" rows="3"></textarea>
+        </div>
+      </section>
+
+      <!-- Шаг 5: факты -->
+      <section class="step" data-step="4">
+        <h1>Шаг 4. Факты для ответов</h1>
+        <p class="lead">Цены, часы, услуги — по одному пункту в строке. ИИ будет ими оперировать.</p>
+        <textarea id="facts" rows="7" placeholder="Работаем Пн–Сб, 8:00–19:00&#10;2 грузчика + машина — от $120/час, минимум 2 часа&#10;Бесплатная оценка: нужны дата, адреса и размер жилья&#10;Лицензированы и застрахованы"></textarea>
+      </section>
+
+      <!-- Шаг 6: правила и передача человеку -->
+      <section class="step" data-step="5">
+        <h1>Шаг 5. Правила и когда молчать</h1>
+        <div class="field">
+          <span>Жёсткие запреты (по строке)</span>
+          <textarea id="rules" rows="3"></textarea>
+        </div>
+        <div class="field">
+          <span>Передать вам лично, если…</span>
+          <div class="checks" id="handoffChecks">
+            <label><input type="checkbox" value="customer is angry or threatens a bad review / legal action" checked /> Клиент злится / угрожает плохим отзывом</label>
+            <label><input type="checkbox" value="refund or damage claim" checked /> Возврат денег или претензия по ущербу</label>
+            <label><input type="checkbox" value="complex custom job that does not fit standard pricing" checked /> Нестандартный заказ вне обычных цен</label>
+            <label><input type="checkbox" value="customer asks for a discount beyond 10%" /> Просят скидку больше 10%</label>
+          </div>
+        </div>
+        <label class="field">
+          <span>Что написать клиенту при передаче (можно пусто)</span>
+          <input id="handoffReply" placeholder="Thanks! Let me check and get back to you shortly." />
+        </label>
+      </section>
+
+      <!-- Шаг 7: безопасность -->
+      <section class="step" data-step="6">
+        <h1>Шаг 6. Безопасность</h1>
+        <p class="lead">Чтобы бот вёл себя аккуратно и по-человечески.</p>
+        <div class="row">
+          <label class="field"><span>Отвечать с</span><input id="activeFrom" type="time" value="08:00" /></label>
+          <label class="field"><span>до</span><input id="activeTo" type="time" value="21:00" /></label>
+        </div>
+        <label class="field">
+          <span>Максимум ответов в день: <b id="maxLabel">60</b></span>
+          <input id="maxPerDay" type="range" min="5" max="200" value="60" />
+        </label>
+        <details class="help">
+          <summary>Тонкая настройка задержек (необязательно)</summary>
+          <div class="row">
+            <label class="field"><span>Пауза перед ответом, сек (от)</span><input id="delayMin" type="number" value="45" /></label>
+            <label class="field"><span>(до)</span><input id="delayMax" type="number" value="240" /></label>
+          </div>
+          <label class="field"><span>Проверять входящие каждые, мин</span><input id="pollMinutes" type="number" value="2" min="1" /></label>
+        </details>
+      </section>
+
+      <!-- Шаг 8: готово -->
+      <section class="step" data-step="7">
+        <div class="hero">🎉</div>
+        <h1>Готово!</h1>
+        <p class="lead">Всё настроено. Осталось включить бота и открыть Yelp.</p>
+        <ol class="how">
+          <li><span>▶</span> Нажмите «Включить» ниже</li>
+          <li><span>🖥️</span> Откройте и держите открытой вкладку «Входящие» Yelp</li>
+          <li><span>💤</span> Можно свернуть — бот работает, пока вкладка открыта</li>
+        </ol>
+        <div class="finish-row">
+          <button id="enableBtn" class="btn btn-primary btn-lg">▶ Включить бота</button>
+          <button id="openYelpBtn" class="btn btn-outline btn-lg">Открыть Yelp</button>
+        </div>
+        <div id="enabledMsg" class="note hidden">✅ Бот включён. Держите вкладку Yelp открытой.</div>
+      </section>
+
+      <!-- Навигация -->
+      <footer class="nav">
+        <button id="backBtn" class="btn btn-ghost">← Назад</button>
+        <div id="dots" class="dots"></div>
+        <button id="nextBtn" class="btn btn-primary">Далее →</button>
+      </footer>
+    </div>
+
+    <script src="options.js"></script>
+  </body>
+</html>
